@@ -1,0 +1,62 @@
+{{define "title"}}Add Transaction - Personal Finance Tracker{{end}}
+
+{{define "content"}}
+<section class="transaction-form">
+    <h2>Add New Transaction</h2>
+    
+    <form action="/transactions" method="POST">
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" min="0.01" value="{{.Transaction.Amount}}" class="{{with .Validator.Errors.amount}}invalid{{end}}" required>
+            {{with .Validator.Errors.amount}}
+                <div class="error">{{.}}</div>
+            {{end}}
+        </div>
+
+        <div class="form-group">
+            <label for="category_id">Category:</label>
+            <select id="category_id" name="category_id" class="{{with .Validator.Errors.category_id}}invalid{{end}}" required>
+                <option value="">Select a category</option>
+                <optgroup label="Income">
+                    {{range .Categories}}
+                        {{if eq .Type "income"}}
+                            <option value="{{.ID}}" {{if eq $.Transaction.CategoryID .ID}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
+                    {{end}}
+                </optgroup>
+                <optgroup label="Expenses">
+                    {{range .Categories}}
+                        {{if eq .Type "expense"}}
+                            <option value="{{.ID}}" {{if eq $.Transaction.CategoryID .ID}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
+                    {{end}}
+                </optgroup>
+            </select>
+            {{with .Validator.Errors.category_id}}
+                <div class="error">{{.}}</div>
+            {{end}}
+        </div>
+
+        <div class="form-group">
+            <label for="transaction_date">Date:</label>
+            <input type="date" id="transaction_date" name="transaction_date" value="{{.Transaction.TransactionDate.Format "2006-01-02"}}" class="{{with .Validator.Errors.transaction_date}}invalid{{end}}" required>
+            {{with .Validator.Errors.transaction_date}}
+                <div class="error">{{.}}</div>
+            {{end}}
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="3" maxlength="500" class="{{with .Validator.Errors.description}}invalid{{end}}">{{.Transaction.Description}}</textarea>
+            {{with .Validator.Errors.description}}
+                <div class="error">{{.}}</div>
+            {{end}}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Transaction</button>
+            <a href="/transactions" class="btn">Cancel</a>
+        </div>
+    </form>
+</section>
+{{end}}

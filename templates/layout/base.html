@@ -1,0 +1,30 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{block "title" .}}Personal Finance Tracker{{end}}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {{block "styles" .}}{{end}}
+</head>
+<body>
+    <header>
+        <h1>Personal Finance Tracker</h1>
+        <nav>
+            <a href="/" class="btn">Dashboard</a>
+            <a href="/transactions" class="btn">Transactions</a>
+            <a href="/transactions/new" class="btn">Add Transaction</a>
+        </nav>
+    </header>
+    <main>
+        {{block "content" .}}{{end}}
+    </main>
+    <footer>
+        <p>&copy; 2025 Personal Finance Tracker</p>
+    </footer>
+    <script src="/static/js/script.js"></script>
+    {{block "scripts" .}}{{end}}
+</body>
+</html>
+{{end}}
